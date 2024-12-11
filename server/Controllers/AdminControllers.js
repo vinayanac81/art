@@ -8,7 +8,7 @@ export const AdminLogin = async (req, res) => {
   try {
     let { mail, password } = req.query;
     mail = mail.toLowerCase();
-    const admin = await adminModel.findOne({ email:mail });
+    const admin = await adminModel.findOne({ email: mail });
     console.log(admin);
     if (admin) {
       let correct = await bcrypt.compare(password, admin.password);
@@ -33,16 +33,16 @@ export const AdminLogin = async (req, res) => {
 };
 export const addArt = async (req, res) => {
   try {
-    let { name, cost, size, category } = req.query;
+    let { name, price, size, category } = req.query.artData;
     await artModel.create({
       name,
-      cost,
+      cost: price,
       size,
       category,
       image: req.file.filename,
     });
 
-    return res.json({ success: true, message: "Product added successfully" });
+    return res.json({ success: true, message: "Art added successfully" });
   } catch (error) {}
 };
 export const addCategory = async (req, res) => {
@@ -68,7 +68,6 @@ export const addCategory = async (req, res) => {
 };
 export const getCategories = async (req, res) => {
   try {
-    console.log("HI");
     const categories = await categoryModel.find({});
     res.json({ success: true, categories });
   } catch (error) {
@@ -83,18 +82,17 @@ export const getAllArtWorks = async (req, res) => {
     console.log(error);
   }
 };
-export const deleteArtWork=async(req,res)=>{
+export const deleteArtWork = async (req, res) => {
   try {
-    const {id}=req.query
+    const { id } = req.query;
     await artModel.deleteOne({
       _id: new ObjectId(id),
     });
-    res.json({success:true,message:"ART DELETED SUCCESSFULLY"})
+    res.json({ success: true, message: "ART DELETED SUCCESSFULLY" });
   } catch (error) {
     console.log(error);
-    
   }
-}
+};
 
 export const getArtWorks = async (req, res) => {
   try {
@@ -110,6 +108,79 @@ export const getEditedArt = async (req, res) => {
     const { id } = req.query;
     const art = await artModel.findOne({ _id: new ObjectId(id) });
     res.json({ success: true, art });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const editArt = async (req, res) => {
+  try {
+    const { id, name, price, category, size } = req.query.editedArt;
+    console.log(id);
+
+    if (!req.file) {
+      await artModel.updateOne(
+        { _id: new ObjectId(id) },
+        {
+          $set: {
+            name,
+            cost: price,
+            size,
+            category,
+          },
+        }
+      );
+      return res.json({ success: true, message: "Successfully edited" });
+    } else {
+      await artModel.updateOne(
+        { _id: new ObjectId(id) },
+        {
+          $set: {
+            name,
+            cost: price,
+            size,
+            category,
+            image: req.file.filename,
+          },
+        }
+      );
+      return res.json({ success: true, message: "Successfully edited" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getCategory = async (req, res) => {
+  try {
+    const { _id } = req.query;
+    const category = await categoryModel.findOne({ _id: new ObjectId(_id) });
+    res.json({ success: true, category });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const updateCategory = async (req, res) => {
+  try {
+    const { id, category } = req.query;
+    console.log(id, category);
+
+    await categoryModel.updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          category,
+        },
+      }
+    );
+    return res.json({ success: true, msg: "Successfully edited" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const deleteCategory = async (req, res) => {
+  try {
+    const { id } = req.query;
+    await categoryModel.deleteOne({ _id: new ObjectId(id) });
+    res.json({ success: true, msg: "Deleted Successfully" });
   } catch (error) {
     console.log(error);
   }

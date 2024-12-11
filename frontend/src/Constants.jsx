@@ -1,0 +1,1 @@
+export const BaseUrll="http://localhost:1000"

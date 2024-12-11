@@ -4,6 +4,8 @@ import Home from "./Page/User/Home";
 import ViewProduct from "./Page/User/ViewProduct";
 import Login from "./Page/Admin/Login";
 import Dashboard from "./Page/Admin/Dashboard";
+import UploadArt from "./Page/Admin/UploadArt";
+import Category from "./Page/Admin/Category";
 
 function App() {
   return (
@@ -22,18 +24,12 @@ function App() {
         <Routes>
           <Route path="/admin/panel" element={<Dashboard />} />
         </Routes>
-        {/* <Routes>
-          <Route path="/view-work/:id" element={<ViewArt />} />
-        </Routes>
         <Routes>
-          <Route path="/admin/upload-art" element={<UploadArts />} />
+          <Route path="/admin/upload-art" element={<UploadArt />} />
         </Routes>
         <Routes>
           <Route path="/admin/category" element={<Category />} />
         </Routes>
-        <Routes>
-          <Route path="/category/:id" element={<UserCategory />} />
-        </Routes> */}
       </BrowserRouter>
     </>
   );

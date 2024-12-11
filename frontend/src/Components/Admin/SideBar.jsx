@@ -5,14 +5,25 @@ const SideBar = ({ name }) => {
     dashboard: false,
     allArt: false,
     uploadArt: false,
+    category: false,
   });
   useEffect(() => {
+    console.log(name);
+
     if (name === "dashboard") {
       setsideBarActive({ ...sideBarActive, dashboard: true });
-    } else if ((name = "allArt")) {
+    } else if (name === "allArt") {
       setsideBarActive({ ...sideBarActive, allArt: true });
-    } else {
-      setsideBarActive({ ...sideBarActive, uploadArt: true });
+    } else if (name === "upload") {
+      setsideBarActive({
+        ...sideBarActive,
+        uploadArt: true,
+      });
+    } else if (name === "category") {
+      setsideBarActive({
+        ...sideBarActive,
+        category: true,
+      });
     }
   }, []);
   return (
@@ -46,8 +57,13 @@ const SideBar = ({ name }) => {
           >
             Upload Art Work
           </a>
-          <a href="#" className="block py-2 px-4 rounded-lg hover:bg-blue-500">
-            Settings
+          <a
+            href="#"
+            className={`block py-2 px-4 rounded-lg  ${
+              sideBarActive.category ? "text-slate-900" : "text-white"
+            } hover:bg-blue-500`}
+          >
+            Category
           </a>
         </nav>
       </aside>
