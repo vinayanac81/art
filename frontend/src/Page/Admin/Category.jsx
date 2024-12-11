@@ -15,6 +15,7 @@ const Category = () => {
   const [id, setid] = useState("");
   const [category, setcategory] = useState("");
   const [isDeleteModal, setisDeleteModal] = useState(false);
+  const [isAddModal, setisAddModal] = useState(false);
   useEffect(() => {
     getCategories();
   }, []);
@@ -89,6 +90,24 @@ const Category = () => {
       console.log(error);
     }
   };
+  const addCate = async (e) => {
+    try {
+      e.preventDefault();
+      console.log(category);
+
+      const { data } = await axios.post(
+        `${BaseUrll}/admin/add-category`,
+        {},
+        { params: { category } }
+      );
+      if (data?.success) {
+        toast.success(data?.msg);
+        navigate("/admin/panel");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="flex min-h-screen bg-gray-100">
@@ -103,6 +122,14 @@ const Category = () => {
           ) : (
             <>
               <main className="flex-1 p-6 min-h-[60vh] bg-slate-700">
+                <div className="flex justify-end pr-44 ">
+                  <button
+                    onClick={() => setisAddModal(true)}
+                    className=" bg-green-800 text-white rounded px-5 "
+                  >
+                    ADD CATEGORY
+                  </button>
+                </div>
                 <div className="h-full flex items-center justify-center">
                   <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6">
                     <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
@@ -217,6 +244,41 @@ const Category = () => {
                         >
                           Delete
                         </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {isAddModal && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="flex items-center justify-center bg-gray-100">
+                      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+                        <h1 className="text-2xl font-bold text-gray-800 mb-2 text-center">
+                          ADD CATEGORY
+                        </h1>
+                        <form className="space-y-6">
+                          {/* Text Field */}
+                          <div>
+                            <input
+                              type="text"
+                              id="text"
+                              name="text"
+                              value={category}
+                              onChange={(e) => setcategory(e.target.value)}
+                              className="mt-1 block w-full p-2 border rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                              required
+                            />
+                          </div>
+                          {/* Submit Button */}
+                          <div className="text-center">
+                            <button
+                              type="submit"
+                              onClick={addCate}
+                              className="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                              Add
+                            </button>
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>

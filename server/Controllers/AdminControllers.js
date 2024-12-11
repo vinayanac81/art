@@ -48,10 +48,12 @@ export const addArt = async (req, res) => {
 export const addCategory = async (req, res) => {
   try {
     let { category } = req.query;
+    console.log(category);
+
     category = category.toLowerCase();
     const ifCategory = await categoryModel.findOne({ category: category });
     if (ifCategory) {
-      return res.json({ success: false, message: "Category already added" });
+      return res.json({ success: false, msg: "Category already added" });
     } else {
       await categoryModel.create({
         category,
@@ -59,7 +61,7 @@ export const addCategory = async (req, res) => {
       console.log("DONE");
       return res.json({
         success: true,
-        message: "Category added successfully",
+        msg: "Category added successfully",
       });
     }
   } catch (error) {

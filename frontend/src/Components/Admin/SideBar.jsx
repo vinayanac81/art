@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const SideBar = ({ name }) => {
   const [sideBarActive, setsideBarActive] = useState({
@@ -33,38 +34,38 @@ const SideBar = ({ name }) => {
           Admin Panel
         </div>
         <nav className="flex-1 p-4 space-y-2">
-          <a
-            href="#"
+          <Link
+            to={"/admin/panel"}
             className={`block py-2 px-4 rounded-lg ${
               sideBarActive.dashboard ? "text-slate-900" : "text-white"
             } hover:bg-blue-500`}
           >
             Dashboard
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to={"/admin/panel"}
             className={`block py-2 px-4 rounded-lg  ${
               sideBarActive.allArt ? "text-slate-900" : "text-white"
             } hover:bg-blue-500`}
           >
             All Art Works
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to={"/admin/upload-art"}
             className={`block py-2 px-4 rounded-lg  ${
               sideBarActive.uploadArt ? "text-slate-900" : "text-white"
             } hover:bg-blue-500`}
           >
             Upload Art Work
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to={"/admin/category"}
             className={`block py-2 px-4 rounded-lg  ${
               sideBarActive.category ? "text-slate-900" : "text-white"
             } hover:bg-blue-500`}
           >
             Category
-          </a>
+          </Link>
         </nav>
       </aside>
     </>
